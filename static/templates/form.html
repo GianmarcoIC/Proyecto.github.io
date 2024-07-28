@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Producto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Formulario de Producto</h1>
+    <form method="post" action="/">
+        <label for="product_name">Nombre del Producto:</label>
+        <input type="text" id="product_name" name="product_name" maxlength="20" required><br>
+
+        <label for="product_price">Precio del Producto:</label>
+        <input type="text" id="product_price" name="product_price" required><br>
+
+        <label>Categorías del Producto:</label><br>
+        {% for category in categories %}
+            <input type="checkbox" name="product_categories" value="{{ category }}"> {{ category }}<br>
+        {% endfor %}
+
+        <label>¿El producto está en venta?</label><br>
+        <input type="radio" id="on_sale_yes" name="product_on_sale" value="Si" required>
+        <label for="on_sale_yes">Si</label><br>
+        <input type="radio" id="on_sale_no" name="product_on_sale" value="No" required>
+        <label for="on_sale_no">No</label><br>
+
+        <button type="submit">Agregar Producto</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
